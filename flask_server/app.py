@@ -1,10 +1,12 @@
 import os
 import logging
 from logging import Formatter, FileHandler
+
+import time
 from flask import Flask, request, jsonify, render_template
 
 from hy_util.hy_file import save_byte
-from ocr import process_image
+from ocr import process_image, process_image_byte
 
 app = Flask(__name__)
 _VERSION = 1  # API version
@@ -26,7 +28,7 @@ def ocr():
             return jsonify({"error": "only .jpg files, please"})
     except:
         return jsonify(
-            {"error": "Did you mean to send: {'image_url': 'some_jpeg_url'}"}
+                {"error": "Did you mean to send: {'image_url': 'some_jpeg_url'}"}
         )
 
 
@@ -42,11 +44,11 @@ def ocr_byte():
     data = request.files['image']
     b = data.read()
 
-    # dest = '/temp_file/x.jpg'
-    dest = '/flask_server/temp_img/x.jpg'
+    dest = '/flask_server/temporary_file/{}.jpg'.format(time.strftime("%m-%d_%H.%M.%S"))
     save_byte(b, dest=dest)
+    result = process_image_byte(b)
 
-    return 'ok'
+    return 'result: ' + str(result)
 
 
 @app.errorhandler(500)
@@ -57,6 +59,7 @@ def internal_error(error):
 @app.errorhandler(404)
 def not_found_error(error):
     return str(error)
+
 
 # # what?
 # if not app.debug:
@@ -72,6 +75,10 @@ def not_found_error(error):
 
 
 if __name__ == '__main__':
+    import cv2
+
+    print('cv2.__version__ = ' + str(cv2.__version__))
+
     debug = True
     host = '0.0.0.0'
     port = int(os.environ.get('PORT', 5000))

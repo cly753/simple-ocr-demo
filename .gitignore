@@ -1,5 +1,6 @@
-flask_server/temporary/
+flask_server/temporary_file/
 flask_server/.idea/
+test_image/
 
 # Created by https://www.gitignore.io/api/osx,python,linux,pycharm
 
