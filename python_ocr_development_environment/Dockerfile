@@ -57,7 +57,6 @@ RUN apt-get install -y \
 RUN wget -O opencv-3.1.0.zip https://github.com/Itseez/opencv/archive/3.1.0.zip \
 	&& unzip opencv-3.1.0.zip -d opencv-3.1.0 \
 	&& rm opencv-3.1.0.zip
-	&& 
 RUN wget -O opencv_contrib-3.1.0.zip https://github.com/Itseez/opencv_contrib/archive/3.1.0.zip \
 	&& unzip opencv_contrib-3.1.0.zip -d opencv_contrib-3.1.0 \
 	&& rm opencv_contrib-3.1.0.zip
