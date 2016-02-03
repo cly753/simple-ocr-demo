@@ -75,14 +75,15 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
 RUN make -j4
 RUN make install
 RUN ldconfig
+WORKDIR /
 # python opencv end
 
 # tesseract continue
 # delay to here because COPY will invalidate cache
+
 COPY requirements.txt /
-RUN pip install -r /requirements.txt
+RUN pip install -r requirements.txt
 
 
 
-WORKDIR /
 CMD ["python", "-c", "import cv2; print('cv2.__version__ = ' + str(cv2.__version__))"]
