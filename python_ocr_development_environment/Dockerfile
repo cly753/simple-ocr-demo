@@ -28,7 +28,7 @@ WORKDIR /
 # build tesseract
 RUN wget https://tesseract-ocr.googlecode.com/files/tesseract-ocr-3.02.02.tar.gz \
 	&& tar -zxvf tesseract-ocr-3.02.02.tar.gz \
-	&& rm tesseract-ocr-3.02.02.tar.gz \
+	&& rm tesseract-ocr-3.02.02.tar.gz
 WORKDIR tesseract-ocr/
 RUN ./autogen.sh
 RUN ./configure
