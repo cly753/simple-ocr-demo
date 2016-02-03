@@ -80,7 +80,7 @@ RUN ldconfig
 # tesseract continue
 # delay to here because COPY will invalidate cache
 COPY requirements.txt /
-RUN pip install -r requirements.txt
+RUN pip install -r /requirements.txt
 
 
 
