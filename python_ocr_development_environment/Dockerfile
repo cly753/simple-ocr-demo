@@ -54,8 +54,16 @@ RUN apt-get install -y \
 	python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev \
 	&& apt-get clean
 # be careful about the permission of the folder copied
-COPY opencv-3.1.0 /opencv-3.1.0
-COPY opencv_contrib-3.1.0 /opencv_contrib-3.1.0
+RUN wget -O opencv-3.1.0.zip https://github.com/Itseez/opencv/archive/3.1.0.zip \
+	&& unzip opencv-3.1.0.zip -d opencv-3.1.0 \
+	&& rm opencv-3.1.0.zip
+	&& 
+RUN wget -O opencv_contrib-3.1.0.zip https://github.com/Itseez/opencv_contrib/archive/3.1.0.zip \
+	&& unzip opencv_contrib-3.1.0.zip -d opencv_contrib-3.1.0 \
+	&& rm opencv_contrib-3.1.0.zip
+# for local
+# COPY opencv-3.1.0 /opencv-3.1.0
+# COPY opencv_contrib-3.1.0 /opencv_contrib-3.1.0
 RUN mkdir /opencv-3.1.0/build
 WORKDIR /opencv-3.1.0/build
 RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
