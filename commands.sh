@@ -24,6 +24,9 @@ docker build --rm -t cly753/flask_ocr .
 # and mount $(pwd)/flask_server to container /flask_server for flask to autoreload
 docker run -v $(pwd)/flask_server:/flask_server -p 5000:5000 cly753/flask_ocr
 
+# open a bash in the running container
+docker exec -it [CONTAINER] bash
+
 # show the docker-machine ip
 # named default
 docker-machine ip default
@@ -39,3 +42,4 @@ docker-machine ip default
 
 # push the image to docker hub
 docker push cly753/flask_ocr
+

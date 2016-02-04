@@ -1,8 +1,6 @@
 # start with a base image
-FROM cly753/ocr_dev_env
-
-# copy file from ./flask_server to image /flask_server
-# COPY ./flask_server /flask_server
+# FROM cly753/ocr_dev_env
+FROM lushl9301/ocr_dev_env
 
 # change working directory to /flask_server
 WORKDIR /flask_server

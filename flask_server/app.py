@@ -3,8 +3,11 @@ import logging
 from logging import Formatter, FileHandler
 
 import time
+
+import sys
 from flask import Flask, request, jsonify, render_template
 
+from hy_cv.hy_tesseract import tesseract_test
 from hy_util.hy_file import save_byte
 from ocr import process_image, process_image_byte
 
@@ -39,16 +42,16 @@ def upload():
 
 @app.route('/v{}/upload'.format(_VERSION), methods=['POST'])
 def ocr_byte():
-    print(request.headers)
-    print(request.data)
+    # print(request.headers)
+    # print(request.data)
     data = request.files['image']
     b = data.read()
 
-    dest = '/flask_server/temporary_file/{}.jpg'.format(time.strftime("%m-%d_%H.%M.%S"))
-    save_byte(b, dest=dest)
+    save_byte(b, tag='origin', ext='jpg')
     result = process_image_byte(b)
 
-    return 'result: ' + str(result)
+    tesseract_test(b)
+    return '----result----<br>' + str(result) + '<br>----result----'
 
 
 @app.errorhandler(500)
@@ -78,6 +81,7 @@ if __name__ == '__main__':
     import cv2
 
     print('cv2.__version__ = ' + str(cv2.__version__))
+    sys.stdout.flush()
 
     debug = True
     host = '0.0.0.0'
