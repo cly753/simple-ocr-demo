@@ -5,7 +5,8 @@ python_ocr_development_environment/opencv-3.1.0.zip
 python_ocr_development_environment/opencv_contrib-3.1.0.zip
 python_ocr_development_environment/opencv-3.1.0/
 python_ocr_development_environment/opencv_contrib-3.1.0/
-
+*.jpg
+*.png
 
 
 # Created by https://www.gitignore.io/api/osx,python,linux,pycharm

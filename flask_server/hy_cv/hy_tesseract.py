@@ -94,7 +94,9 @@ def tesseract_test(b):
     cv2.imwrite(get_file_name(tag='opencv_bw', ext='jpg'), imcv_bw)
 
     text_sharpen = tesseract_detect(imcv_sharpen)
-    text_bw = tesseract_detect(imcv_bw)
+    text_bw = tesseract_detect(imcv_bw)  # low accuracy
     print "----text sharpen----\n" + text_sharpen
     print "----text bw     ----\n" + text_bw
     sys.stdout.flush()
+
+    return [('cpp text sharpen', text_sharpen), ('cpp text bw', text_bw)]

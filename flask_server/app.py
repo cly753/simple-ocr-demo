@@ -48,10 +48,14 @@ def ocr_byte():
     b = data.read()
 
     save_byte(b, tag='origin', ext='jpg')
-    result = process_image_byte(b)
+    result = []
+    result.append(('py text', process_image_byte(b)))
+    result.extend(tesseract_test(b))
 
-    tesseract_test(b)
-    return '----result----<br>' + str(result) + '<br>----result----'
+    text = ''
+    for each in result:
+        text += '---- result ---- {}<br>{}<br>'.format(each[0], each[1])
+    return text
 
 
 @app.errorhandler(500)
