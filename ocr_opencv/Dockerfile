@@ -3,7 +3,7 @@
 FROM ubuntu:14.04
 
 # install dependencies
-RUN apt-get update && apt-get install -y autoconf automake libtool g++ git cmake wget python python-pip python2.7-dev build-essential && apt-get clean
+RUN apt-get update && apt-get install -y autoconf automake libtool g++ git cmake wget python python-pip python2.7-dev build-essential vim && apt-get clean
 RUN apt-get update && apt-get install -y libpng12-dev libjpeg62-dev && apt-get clean
 RUN apt-get update && apt-get install -y libtiff4-dev && apt-get clean
 RUN apt-get update && apt-get install -y libopencv-dev libtesseract-dev libleptonica-dev && apt-get clean
