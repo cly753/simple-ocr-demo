@@ -50,7 +50,7 @@ def ocr_byte():
     result.extend(tesseract_test(b))
 
     # test whole process
-    hy.hy_ocr.ocr_byte(byte_to_imcv(b=b))
+    hy.hy_ocr.ocr_byte(b)
 
     text = ''
     for each in result:

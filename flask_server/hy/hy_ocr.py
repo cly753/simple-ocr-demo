@@ -17,9 +17,10 @@ def ocr_mat(imcv):
     time_string = time.strftime("%m-%d_%H.%M.%S")
     img_in = '{}/{}_img_in.jpg'.format(BASE_PATH, time_string)
     dir_out = '{}/{}_output/'.format(BASE_PATH, time_string)
-    os.makedirs(dir_out)
     print 'img_in : {}'.format(img_in)
     print 'dir_out: {}'.format(dir_out)
+    if not os.path.exists(dir_out):
+        os.makedirs(dir_out)
 
     cv2.imwrite(img_in, imcv)
 
@@ -27,7 +28,13 @@ def ocr_mat(imcv):
     invoke_cpp(img_in, dir_out)
 
     # ocr each sub image
-    fs = [f for f in os.listdir(dir_out) if os.path.isfile(os.path.join(dir_out, f))]
+    fs = [os.path.join(dir_out, f) for f in os.listdir(dir_out) if os.path.isfile(os.path.join(dir_out, f))]
+
+    from pprint import pprint
+    pprint([f for f in fs if f[-4:] != '.txt'], width=-1)
+    pprint([f for f in fs if f[-4:] == '.txt'], width=-1)
+    sys.stdout.flush()
+
     subimg = [cv2.imread(f, flags=1) for f in fs if f[-4:] != '.txt']
     subtext = [tesseract_detect(preprocess(imcv=img)) for img in subimg]
     subrect = read_rect([f for f in fs if f[-4:] == '.txt'])
@@ -41,7 +48,8 @@ def ocr_mat(imcv):
         })
 
     from pprint import pprint
-    pprint(result)
+    pprint(result, width=-1)
+    sys.stdout.flush()
     return result
 
 

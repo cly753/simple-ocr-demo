@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
     // origin
     // imwrite(OUTPUT_PATH, rgb);
     
-    imwrite(OUTPUT_PATH + "rgb.jpg", large_out);
+    // imwrite(OUTPUT_PATH + "rgb.jpg", large_out);
     
     return 0;
 }
