@@ -1,6 +1,9 @@
 import os
+import os.path
 
 import time
+
+BASE_PATH = '/flask_server/temporary_file'
 
 
 def save_byte(b, tag='', ext='jpg'):
@@ -12,4 +15,4 @@ def save_byte(b, tag='', ext='jpg'):
 
 
 def get_file_name(tag='', ext='jpg'):
-    return '/flask_server/temporary_file/{}_{}.{}'.format(time.strftime("%m-%d_%H.%M.%S"), tag, ext)
+    return '{}/{}_{}.{}'.format(BASE_PATH, time.strftime("%m-%d_%H.%M.%S"), tag, ext)

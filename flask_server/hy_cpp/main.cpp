@@ -5,6 +5,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 using namespace cv;
 using namespace std;
@@ -19,7 +20,7 @@ int main(int argc, char* argv[]) {
 
     string INPUT_FILE(argv[1]);
     string OUTPUT_PATH(argv[2]);
-    assert(OUTPUT_PATH[OUTPUT_PATH.length() - 1] != '/');
+    assert(OUTPUT_PATH[OUTPUT_PATH.length() - 1] == '/');
     
     Mat large = imread(INPUT_FILE);
     Mat large_out;
@@ -80,20 +81,23 @@ int main(int argc, char* argv[]) {
             rect.height *= ratio;
             rect.width = min(size_large.width - rect.x, rect.width + 3);
             rect.height = min(size_large.height - rect.y, rect.height + 3);
-            printf("x=%4d, y=%4d, x+width=%4d, y+height=%4d\n", rect.x, rect.y, rect.x+rect.height, rect.y+rect.width);
+            printf("x=%4d, y=%4d, x+width=%4d, y+height=%4d\n", rect.x, rect.y, rect.x+rect.width, rect.y+rect.height);
 
             rectangle(large_out, rect, Scalar(0, 255, 0), 1);
 
-            const string OUT = OUTPUT_PATH + "/rgb_";
             Mat sub;
             large(rect).copyTo(sub);
-            imwrite(OUT + "large_" + to_string(idx) + ".jpg", sub);        
+            imwrite(OUTPUT_PATH + to_string(idx) + ".jpg", sub);
+            ofstream f(OUTPUT_PATH + to_string(idx) + ".txt");
+            f << rect.x << " " << rect.y << " " << rect.width << " " << rect.height << "\n"
+                << "x y width height" << "\n";
+            f.close();
         }
     }
     // origin
     // imwrite(OUTPUT_PATH, rgb);
     
-    imwrite(OUTPUT_PATH + "/rgb.jpg", large_out);
+    imwrite(OUTPUT_PATH + "rgb.jpg", large_out);
     
     return 0;
 }

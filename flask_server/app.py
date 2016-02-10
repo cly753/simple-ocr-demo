@@ -1,15 +1,12 @@
 import os
-import logging
-from logging import Formatter, FileHandler
-
-import time
-
 import sys
+
 from flask import Flask, request, jsonify, render_template
 
-from hy_cv.hy_tesseract import tesseract_test
+import hy.hy_ocr
+from hy.hy_ocr import byte_to_imcv, ocr_mat, tesseract_test
 from hy_util.hy_file import save_byte
-from ocr import process_image, process_image_byte
+from ocr import process_image_byte, process_image
 
 app = Flask(__name__)
 _VERSION = 1  # API version
@@ -51,6 +48,9 @@ def ocr_byte():
     result = []
     result.append(('py text', process_image_byte(b)))
     result.extend(tesseract_test(b))
+
+    # test whole process
+    hy.hy_ocr.ocr_byte(byte_to_imcv(b=b))
 
     text = ''
     for each in result:

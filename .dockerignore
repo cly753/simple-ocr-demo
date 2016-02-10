@@ -1,2 +1,7 @@
 
 python_ocr_development_environment/
+ocr_opencv/
+test_image/
+flask_server/temporary_file/
+flask_server/hy_cpp/rgb*
+
