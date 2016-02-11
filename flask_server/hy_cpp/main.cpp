@@ -13,6 +13,11 @@ using namespace std;
 // #define INPUT_FILE      string("/flask_server/hy_cpp/1.jpg")
 // #define OUTPUT_PATH     string("/flask_server/hy_cpp")
 
+// 
+// TODO
+// try another filter in that stackoverflow
+// 
+
 int main(int argc, char* argv[]) {
     for (int i = 0; i < argc; i++)
         printf("%s\n", argv[i]);
@@ -90,7 +95,9 @@ int main(int argc, char* argv[]) {
             imwrite(OUTPUT_PATH + to_string(idx) + ".jpg", sub);
             ofstream f(OUTPUT_PATH + to_string(idx) + ".txt");
             f << rect.x << " " << rect.y << " " << rect.width << " " << rect.height << "\n"
-                << "x y width height" << "\n";
+                << "x y width height" << "\n"
+                << idx << "\n"
+                << "index" << "\n";
             f.close();
         }
     }

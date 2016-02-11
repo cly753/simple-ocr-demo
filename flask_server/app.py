@@ -46,15 +46,18 @@ def ocr_byte():
 
     save_byte(b, tag='origin', ext='jpg')
     result = []
-    result.append(('py text', process_image_byte(b)))
+    result.append(('pytesseract + pillow', process_image_byte(b)))
     result.extend(tesseract_test(b))
 
-    # test whole process
-    hy.hy_ocr.ocr_byte(b)
+    temp = hy.hy_ocr.ocr_byte(b)
+    temp_text = '\n'.join([t['text'] for t in temp])
+    temp_tag = 'cpp tesseract + cpp extraction morphological gradient filter + opencv sharpen'
+    result.append((temp_tag, temp_text))
 
     text = ''
     for each in result:
-        text += '---- result ---- {}<br>{}<br>'.format(each[0], each[1])
+        text += '---- result ---- {}\n{}\n'.format(each[0], each[1])
+    text = '<pre>{}</pre>'.format(text)
     return text
 
 

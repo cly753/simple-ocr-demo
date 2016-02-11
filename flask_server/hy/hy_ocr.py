@@ -126,13 +126,15 @@ def tesseract_test(b):
     cv2.imwrite(get_file_name(tag='opencv_sharpen', ext='jpg'), imcv_sharpen)
     cv2.imwrite(get_file_name(tag='opencv_bw', ext='jpg'), imcv_bw)
 
+    tag_sharpen = 'cpp tesseract + opencv sharpen'
+    tag_bw = 'cpp tesseract + opencv bw'
     text_sharpen = tesseract_detect(imcv_sharpen)
     text_bw = tesseract_detect(imcv_bw)  # low accuracy
-    print "----text sharpen----\n" + text_sharpen
-    print "----text bw     ----\n" + text_bw
+    print "----{}----\n{}".format(tag_sharpen, text_sharpen)
+    print "----{}----\n{}".format(tag_bw, text_bw)
     sys.stdout.flush()
 
-    return [('cpp text sharpen', text_sharpen), ('cpp text bw', text_bw)]
+    return [(tag_sharpen, text_sharpen), (tag_bw, text_bw)]
 
 
 if __name__ == '__main__':
