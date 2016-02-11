@@ -3,7 +3,7 @@
 FROM ubuntu:14.04
 
 # install dependencies
-RUN apt-get update && apt-get install -y autoconf automake libtool g++ git cmake wget python python-pip python2.7-dev build-essential vim && apt-get clean
+RUN apt-get update && apt-get install -y autoconf automake libtool g++ git cmake wget python python-pip python2.7-dev build-essential vim sed && apt-get clean
 RUN apt-get update && apt-get install -y libpng12-dev libjpeg62-dev && apt-get clean
 RUN apt-get update && apt-get install -y libtiff4-dev && apt-get clean
 RUN apt-get update && apt-get install -y libopencv-dev libtesseract-dev libleptonica-dev && apt-get clean
@@ -77,6 +77,8 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
 RUN make -j4 \
 	&& make install
 RUN ldconfig
+# in place (-i) remove -lippicv flag for linking opencv as it is out-dated
+RUN sed -i 's/ -lippicv / /g' /usr/local/lib/pkgconfig/opencv.pc
 # python opencv end
 
 # tesseract continue

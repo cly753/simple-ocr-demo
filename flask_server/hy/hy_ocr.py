@@ -42,15 +42,35 @@ def ocr_mat(imcv):
     # assemble return data (xy+ocr of sub images) in json
     result = []
     for idx in range(0, len(subimg)):
+        rect = subrect[idx]
+        text = subtext[idx]
+        if not valid_text(text):
+            continue
         result.append({
-            'rect': subrect[idx],
-            'text': subtext[idx]
+            'rect': rect,
+            'text': text
         })
 
     from pprint import pprint
     pprint(result, width=-1)
     sys.stdout.flush()
     return result
+
+
+def valid_text(text):
+    LEN_MIN = 1
+    LEN_MAX = 25
+    if text is None:
+        return False
+    if len(text) < LEN_MIN:
+        return False
+    if len(text) > LEN_MAX:
+        return False
+    try:
+        text.decode('ascii')
+    except UnicodeDecodeError:
+        return False
+    return True
 
 
 def ocr_byte(b):

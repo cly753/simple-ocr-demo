@@ -79,8 +79,8 @@ int main(int argc, char* argv[]) {
             rect.y *= ratio;
             rect.width *= ratio;
             rect.height *= ratio;
-            rect.width = min(size_large.width - rect.x, rect.width + 3);
-            rect.height = min(size_large.height - rect.y, rect.height + 3);
+            rect.width = min(size_large.width - rect.x, rect.width + 2);
+            rect.height = min(size_large.height - rect.y, rect.height + 2);
             printf("x=%4d, y=%4d, x+width=%4d, y+height=%4d\n", rect.x, rect.y, rect.x+rect.width, rect.y+rect.height);
 
             rectangle(large_out, rect, Scalar(0, 255, 0), 1);
