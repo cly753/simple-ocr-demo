@@ -1,0 +1,25 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+    <div>
+        {% if image %}
+            <img src="data:;base64,{{ image }}">
+        {% endif %}
+    </div>
+
+
+
+    <div>
+    <pre>
+        {% if result %}
+            {{ result }}
+        {% else %}
+            No Result.
+        {% endif %}
+    </pre>
+    </div>
+
+    <div id="again"><a href="{{ url_for('upload') }}">Again</a></div>
+
+{% endblock %}

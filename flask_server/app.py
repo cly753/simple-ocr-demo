@@ -1,6 +1,11 @@
+import json
 import os
+import pprint
+import re
 import sys
+from base64 import b64encode
 
+import flask
 from flask import Flask, request, jsonify, render_template
 
 import hy.hy_ocr
@@ -44,7 +49,7 @@ def ocr_byte():
     data = request.files['image']
     b = data.read()
 
-    save_byte(b, tag='origin', ext='jpg')
+    dest = save_byte(b, tag='origin', ext='jpg')
     result = []
     result.append(('pytesseract + pillow', process_image_byte(b)))
     result.extend(tesseract_test(b))
@@ -56,9 +61,20 @@ def ocr_byte():
 
     text = ''
     for each in result:
-        text += '---- result ---- {}\n{}\n'.format(each[0], each[1])
-    text = '<pre>{}</pre>'.format(text)
-    return text
+        text += '---- result ----\n{}\n----------------\n{}\n\n'.format(each[0], each[1])
+
+    final = text
+    # final = {
+    #     'n_rect': len(temp),
+    #     'rect': temp
+    # }
+    # final = json.dumps(final, indent=4)
+    # return flask.jsonify(**final)
+
+    print(final)
+    final = ''.join([i if ord(i) < 128 else '' for i in final])
+    # final = re.sub('[^0-9A-Za-z#&()+,\-./:;<=>@[\\\]\^_\{\|\}\~\n ]', '', final)
+    return render_template('result.html', image=b64encode(b), result=final)
 
 
 @app.errorhandler(500)

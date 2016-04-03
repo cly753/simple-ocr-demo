@@ -11,7 +11,7 @@ def save_byte(b, tag='', ext='jpg'):
     with open(dest, 'wb') as f:
         f.write(b)
 
-    return True
+    return dest
 
 
 def get_file_name(tag='', ext='jpg'):

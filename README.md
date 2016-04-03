@@ -1,18 +1,19 @@
 
+### Docker based simple OCR
+
+---
+Fork and modified from [realpython.com](https://realpython.com/blog/python/setting-up-a-simple-ocr-server/)
+
 ---
 
-### Structure
+#### Structure
 
-#### `python_ocr_development_environment/`
+`python_ocr_development_environment/` : dev env for ocr
 
-dev env for ocr
+`flask_server/` : server sources code
 
-#### `flask_server/`
+`./` : server setup
 
-server sources code
-
-#### `./`
-
-server setup
+`commands.sh` : commands to run
 
 ---

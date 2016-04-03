@@ -12,7 +12,7 @@ from hy.hy_tesseract import tesseract_detect
 from hy_util.hy_file import BASE_PATH, get_file_name
 
 
-def ocr_mat(imcv):
+def ocr_mat(imcv, repeat=True):
     # (save to disk) / (load cpp binary)
     time_string = time.strftime("%m-%d_%H.%M.%S")
     img_in = '{}/{}_img_in.jpg'.format(BASE_PATH, time_string)
@@ -30,12 +30,7 @@ def ocr_mat(imcv):
     # ocr each sub image
     fs = [os.path.join(dir_out, f) for f in os.listdir(dir_out) if os.path.isfile(os.path.join(dir_out, f))]
 
-    from pprint import pprint
-    pprint([f for f in fs if f[-4:] != '.txt'], width=-1)
-    pprint([f for f in fs if f[-4:] == '.txt'], width=-1)
-    sys.stdout.flush()
-
-    subimg = [cv2.imread(f, flags=1) for f in fs if f[-4:] != '.txt']
+    subimg = [cv2.imread(f, flags=1) for f in fs if f[-4:] == '.jpg']
     subtext = [tesseract_detect(preprocess(imcv=img)) for img in subimg]
     subrect = read_rect([f for f in fs if f[-4:] == '.txt'])
 
@@ -59,17 +54,29 @@ def ocr_mat(imcv):
 
 def valid_text(text):
     LEN_MIN = 1
-    LEN_MAX = 25
+    LEN_MAX = 40
     if text is None:
         return False
     if len(text) < LEN_MIN:
         return False
     if len(text) > LEN_MAX:
         return False
+
     try:
         text.decode('ascii')
     except UnicodeDecodeError:
         return False
+
+    good_bar = 0.5
+    good_char = 0
+    for c in text:
+        cint = ord(c)
+        if (ord('0') <= cint <= ord('9')) or (ord('a') <= cint <= ord('z')) or (ord('A') <= cint <= ord('Z')):
+            good_char += 1
+    good_ratio = good_char / float(len(text))
+    if good_ratio < good_bar:
+        return False
+
     return True
 
 
@@ -120,21 +127,21 @@ def tesseract_test(b):
     print type(imcv), imcv.shape
 
     imcv_sharpen = sharpen_image(imcv)
-    imcv_bw = black_white(im_gray=byte_to_imcv(b, 0))
-    imcv_bw = cv2.cvtColor(imcv_bw, cv2.COLOR_GRAY2RGB)
+    # imcv_bw = black_white(im_gray=byte_to_imcv(b, 0))
+    # imcv_bw = cv2.cvtColor(imcv_bw, cv2.COLOR_GRAY2RGB)
     cv2.imwrite(get_file_name(tag='opencv', ext='jpg'), imcv)
     cv2.imwrite(get_file_name(tag='opencv_sharpen', ext='jpg'), imcv_sharpen)
-    cv2.imwrite(get_file_name(tag='opencv_bw', ext='jpg'), imcv_bw)
+    # cv2.imwrite(get_file_name(tag='opencv_bw', ext='jpg'), imcv_bw)
 
     tag_sharpen = 'cpp tesseract + opencv sharpen'
     tag_bw = 'cpp tesseract + opencv bw'
     text_sharpen = tesseract_detect(imcv_sharpen)
-    text_bw = tesseract_detect(imcv_bw)  # low accuracy
+    # text_bw = tesseract_detect(imcv_bw)  # low accuracy
     print "----{}----\n{}".format(tag_sharpen, text_sharpen)
-    print "----{}----\n{}".format(tag_bw, text_bw)
+    # print "----{}----\n{}".format(tag_bw, text_bw)
     sys.stdout.flush()
 
-    return [(tag_sharpen, text_sharpen), (tag_bw, text_bw)]
+    return [(tag_sharpen, text_sharpen)]
 
 
 if __name__ == '__main__':
